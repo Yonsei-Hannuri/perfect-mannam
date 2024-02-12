@@ -4,7 +4,7 @@ function Detgori(props) {
       <li className="list-group-item align-bottom w-90">
         <a
           rel="noreferrer"
-          href={`${process.env.REACT_APP_API_URL}uploads/detgori/${props.detgori.googleId}.pdf`}
+          href={`${process.env.REACT_APP_API_URL}/uploads/detgori/${props.detgori.googleId}.pdf`}
           target="_blank"
         >
           {props.detgori.sessionTitle}: {props.detgori.detgoriTitle}

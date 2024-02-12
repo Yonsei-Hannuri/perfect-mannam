@@ -53,7 +53,7 @@ class App extends Component {
                       </li>
                       <li className="nav-item">
                         <a
-                          href={process.env.REACT_APP_API_URL + 'logout/'}
+                          href={process.env.REACT_APP_API_URL + '/logout'}
                           className="nav-link"
                         >
                           로그아웃

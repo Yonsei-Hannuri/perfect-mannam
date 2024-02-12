@@ -8,7 +8,7 @@ const useUserInfo = () => {
   const requestUserInfo = async (seasonId) => {
     const userInfo = await client({
       method: 'GET',
-      url: process.env.REACT_APP_API_URL + 'mypageInfo',
+      url: process.env.REACT_APP_API_URL + '/mypageInfo',
       params: {
         seasonId: seasonId,
       },

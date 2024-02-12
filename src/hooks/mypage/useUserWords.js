@@ -8,7 +8,7 @@ const useUserWords = () => {
   const requestUserWords = async () => {
     const userWords = await client({
       method: 'GET',
-      url: `${process.env.REACT_APP_API_URL}wordList/mypage/0`,
+      url: `${process.env.REACT_APP_API_URL}/wordList/mypage/0`,
     });
     setUserWords(userWords.data.wordList);
   };

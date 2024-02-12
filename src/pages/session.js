@@ -45,7 +45,7 @@ function Session() {
           panel={(detgoriId) => (
             <PDFViewer
               key={detgoriId}
-              src={`${process.env.REACT_APP_API_URL}uploads/detgori/${detgoriId}.pdf`}
+              src={`${process.env.REACT_APP_API_URL}/uploads/detgori/${detgoriId}.pdf`}
             />
           )}
           options={(setDetgori) =>

@@ -40,7 +40,7 @@ function Mypage() {
           <h3>&nbsp;&nbsp;&nbsp; {userInfo.name} 학회원님</h3>
           <h5>&nbsp;&nbsp;&nbsp;&nbsp; {userInfo.generation}기</h5>
           {userInfo.is_staff ? (
-            <a href={`${process.env.REACT_APP_API_URL}admin`}>
+            <a href={`${process.env.REACT_APP_API_URL}/admin`}>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 임원진 페이지
             </a>
           ) : (
