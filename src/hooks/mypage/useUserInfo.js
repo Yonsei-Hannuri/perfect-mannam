@@ -25,7 +25,7 @@ const useUserInfo = () => {
         method: 'DELETE',
         url:
           process.env.REACT_APP_API_URL +
-          'detgori/' +
+          '/detgori/' +
           e.currentTarget.getAttribute('val') +
           '/',
       }).then(() => {
