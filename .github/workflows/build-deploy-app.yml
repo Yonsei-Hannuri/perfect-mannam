@@ -24,6 +24,7 @@ jobs:
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1.3
         with:
+          envkey_REACT_APP_FILE_URL: ${{ vars.FILE_URL }}
           envkey_REACT_APP_API_URL: ${{ vars.API_DOMAIN }}
           envkey_REACT_APP_GOOGLE_OAUTH_LOGIN_URL: ${{ vars.GOOGLE_OAUTH_LOGIN_URL }}
           envkey_REACT_APP_GOOGLE_OAUTH_SIGNIN_URL: ${{ vars.GOOGLE_OAUTH_SIGNIN_URL }}
