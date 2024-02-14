@@ -3,12 +3,12 @@ name: build-deploy-app
 on:
   workflow_dispatch:
     branches:
-      - master
+      - main
   push:
     paths:
       - 'src/**'
     branches:
-      - master
+      - main
 
 env:
   S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
