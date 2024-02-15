@@ -31,7 +31,7 @@ function Mypage() {
       ));
   if (!(userInfo && currentSeasonSessions && userWords)) return '';
   return (
-    <div>
+    <div className="flex-fill">
       <div className="d-flex m-3" id="profile_box">
         <div className="text-center">
           <ProfileColor userInfo={userInfo} onChange={requestUserInfo} />

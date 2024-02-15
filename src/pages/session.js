@@ -32,13 +32,15 @@ function Session() {
 
   if (session === null) return '';
   return (
-    <div className="container pt-3">
-      <h2>{session.title}</h2>
-      <SessionReadfile
-        urls={session.readfile}
-        googleFolderId={session.googleFolderId}
-      />
-      <hr />
+    <div className="container pt-3 flex-fill d-flex flex-column justify-content-start">
+      <div>
+        <h2>{session.title}</h2>
+        <SessionReadfile
+          urls={session.readfile}
+          googleFolderId={session.googleFolderId}
+        />
+        <hr />
+      </div>
       {detgoris && (
         <ShowSelection
           title={'댓거리'}
@@ -65,7 +67,11 @@ function Session() {
           }
         />
       )}
-      <WordCloud wordList={sessionWordList} />
+      <div className="flex-fill d-flex flex-column justify-content-center">
+        <div>
+          <WordCloud wordList={sessionWordList} />
+        </div>
+      </div>
     </div>
   );
 }
