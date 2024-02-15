@@ -30,31 +30,35 @@ class App extends Component {
                   return (
                     <>
                       <li className="nav-item">
-                        <button
+                        <a
+                          href="#"
                           name="main"
                           className={
-                            'nav-link ' + (link === '/' ? 'active' : '')
+                            'nav-link text-end px-3 ' +
+                            (link === '/' ? 'active' : '')
                           }
                           onClick={() => onNavClick('/')}
                         >
-                          메인
-                        </button>
+                          세션입장
+                        </a>
                       </li>
                       <li className="nav-item">
-                        <button
+                        <a
+                          href="#"
                           name="mypage"
                           className={
-                            'nav-link ' + (link === '/mypage' ? 'active' : '')
+                            'nav-link text-end px-3 ' +
+                            (link === '/mypage' ? 'active' : '')
                           }
                           onClick={() => onNavClick('/mypage')}
                         >
                           마이페이지
-                        </button>
+                        </a>
                       </li>
                       <li className="nav-item">
                         <a
                           href={process.env.REACT_APP_API_URL + '/logout'}
-                          className="nav-link"
+                          className="nav-link text-end px-3"
                         >
                           로그아웃
                         </a>
@@ -63,14 +67,15 @@ class App extends Component {
                   );
                 }}
               />
+              <div className="border-bottom"></div>
               <Switch>
                 <Route exact path="/" component={MainPage} />
                 <Route exact path="/mypage" component={Mypage} />
               </Switch>
+              <Footer />
             </Route>
           </Switch>
         </Router>
-        <Footer />
       </div>
     );
   }

@@ -10,19 +10,30 @@ function Header({ links, defaultLinkState }) {
     setLink(link);
   };
   return (
-    <div name="header">
-      <div className="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-        <span className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none justify-content-center">
-          <span className="fs-4 px-4">
-            <img width="30px" src="/blue.ico" alt="icon" />
-            한누리
-          </span>
+    <nav className="navbar navbar-expand-lg navbar-light">
+      <div className="container-fluid">
+        <span className="fs-4">
+          <img width="30px" src="/blue.ico" alt="icon" />
+          한누리
         </span>
-        <ul className="nav nav-pills justify-content-center">
-          {links(link, onNavClick)}
-        </ul>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+            {links(link, onNavClick)}
+          </ul>
+        </div>
       </div>
-    </div>
+    </nav>
   );
 }
 

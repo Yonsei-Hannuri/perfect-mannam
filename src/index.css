@@ -292,9 +292,10 @@ textarea {
   color: black;
 }
 
-.nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
-  color: white;
+.nav-item .nav-link.active,
+.nav-item .show > .nav-link {
+  color: white !important;
+  border-radius: 5px;
   background-color: #2571b8;
 }
 
