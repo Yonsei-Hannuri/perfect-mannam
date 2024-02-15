@@ -9,9 +9,11 @@ function MainPage() {
   const { seasonTitle, seasonSessions: sessions } = useCurrentSeason();
   const history = useHistory();
   return (
-    <div>
-      <Head>{seasonTitle}</Head>
-      <SessionBanner recentSession={sessions[sessions.length - 1]}>
+    <div className="flex-fill d-flex justify-content-between flex-column">
+      <SessionBanner
+        seasonTitle={seasonTitle}
+        recentSession={sessions[sessions.length - 1]}
+      >
         <button
           type="button"
           className="btn btn-light border btn-lg px-4 gap-3"

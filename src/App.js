@@ -19,7 +19,7 @@ class App extends Component {
       );
     }
     return (
-      <div className="container">
+      <div className="container min-vh-100 d-flex flex-column justify-content-between">
         <Router>
           <Switch>
             <Route path="/session" component={Session} />
