@@ -31,10 +31,9 @@ class App extends Component {
                     <>
                       <li className="nav-item">
                         <a
-                          href="#"
                           name="main"
                           className={
-                            'nav-link text-end px-3 ' +
+                            'cursor2Pointer nav-link text-end px-3 ' +
                             (link === '/' ? 'active' : '')
                           }
                           onClick={() => onNavClick('/')}
@@ -44,10 +43,9 @@ class App extends Component {
                       </li>
                       <li className="nav-item">
                         <a
-                          href="#"
                           name="mypage"
                           className={
-                            'nav-link text-end px-3 ' +
+                            'cursor2Pointer nav-link text-end px-3 ' +
                             (link === '/mypage' ? 'active' : '')
                           }
                           onClick={() => onNavClick('/mypage')}
