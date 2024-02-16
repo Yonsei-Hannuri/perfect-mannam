@@ -30,7 +30,7 @@ class App extends Component {
                   return (
                     <>
                       <li className="nav-item">
-                        <a
+                        <span
                           name="main"
                           className={
                             'cursor2Pointer nav-link text-end px-3 ' +
@@ -39,10 +39,10 @@ class App extends Component {
                           onClick={() => onNavClick('/')}
                         >
                           세션입장
-                        </a>
+                        </span>
                       </li>
                       <li className="nav-item">
-                        <a
+                        <span
                           name="mypage"
                           className={
                             'cursor2Pointer nav-link text-end px-3 ' +
@@ -51,7 +51,7 @@ class App extends Component {
                           onClick={() => onNavClick('/mypage')}
                         >
                           마이페이지
-                        </a>
+                        </span>
                       </li>
                       <li className="nav-item">
                         <a
