@@ -139,9 +139,9 @@ a {
 }
 
 /* container */
-@media screen and (min-width: 991px) {
+@media screen and (min-width: 1180px) {
   .container {
-    max-width: 880px;
+    max-width: 1024px;
   }
 }
 
