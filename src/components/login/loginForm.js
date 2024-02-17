@@ -6,15 +6,17 @@
 function LoginForm(props) {
   return (
     <main>
-      <h1>생각의 씨앗,</h1>
-      <h1>완전한 만남.</h1>
-      <div className="lead my-3">
-        <a href={props.googleUrl}>
-          <img width="200px" src="/google.png" alt="google login" />
-        </a>
-        <p className="my-2 py-2">
-          {props.isError ? '로그인에 실패했습니다.' : ''}
-        </p>
+      <div className="my-3">
+        <div className="d-flex justify-content-center">
+          <div>
+            <div className="lead text-start px-1">
+              {props.isError ? '로그인에 실패했습니다.' : '학회원 로그인'}
+            </div>
+            <a className="text-start" href={props.googleUrl}>
+              <img width="250px" src="/google.png" alt="google login" />
+            </a>
+          </div>
+        </div>
       </div>
     </main>
   );
