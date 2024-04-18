@@ -5,9 +5,14 @@
  */
 const sumCounts = (counts) => {
   if (counts.length === 0) return {};
-  const totalCounts = JSON.parse(counts[0]);
-  for (let i = 1; i < counts.length; i++) {
-    const count = JSON.parse(counts[i]);
+  const totalCounts = {};
+  for (const _count of counts) {
+    let count;
+    try {
+      count = JSON.parse(_count);
+    } catch {
+      count = {};
+    }
     for (let key in count) {
       if (Object.keys(totalCounts).includes(key)) {
         totalCounts[key] += count[key];
