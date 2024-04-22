@@ -10,7 +10,7 @@ function Header({ links, defaultLinkState }) {
     setLink(link);
   };
   return (
-    <nav className="navbar navbar-expand-lg navbar-light">
+    <nav className="navbar navbar-expand-lg navbar-light border-bottom">
       <div className="container-fluid">
         <span className="fs-4">
           <img width="30px" src="/blue.ico" alt="icon" />

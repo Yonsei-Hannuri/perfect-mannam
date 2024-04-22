@@ -4,6 +4,7 @@ import MainPage from './pages/mainPage';
 import Mypage from './pages/mypage';
 import Session from './pages/session';
 import LoginPage from './pages/loginPage';
+import Archive from './pages/archive';
 import HeaderNav from './components/highorder/headerNav';
 import Footer from './components/footer';
 import getCookieValue from './modules/getCookieValue';
@@ -38,7 +39,19 @@ class App extends Component {
                           }
                           onClick={() => onNavClick('/')}
                         >
-                          세션입장
+                          이번학기
+                        </span>
+                      </li>
+                      <li className="nav-item">
+                        <span
+                          name="main"
+                          className={
+                            'cursor2Pointer nav-link text-end px-3 ' +
+                            (link === '/archive' ? 'active' : '')
+                          }
+                          onClick={() => onNavClick('/archive')}
+                        >
+                          아카이브
                         </span>
                       </li>
                       <li className="nav-item">
@@ -65,9 +78,9 @@ class App extends Component {
                   );
                 }}
               />
-              <div className="border-bottom"></div>
               <Switch>
                 <Route exact path="/" component={MainPage} />
+                <Route exect path="/archive" component={Archive} />
                 <Route exact path="/mypage" component={Mypage} />
               </Switch>
               <Footer />
