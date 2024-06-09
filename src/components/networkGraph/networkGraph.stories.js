@@ -29,7 +29,7 @@ export const Basic = {
       },
       {
         id: 5,
-        name: 'E',
+        name: '역지사지',
       },
       {
         id: 6,
@@ -49,7 +49,7 @@ export const Basic = {
       },
       {
         id: 10,
-        name: 'J',
+        name: '전문가교육',
       },
     ],
     edges: [

@@ -2,75 +2,100 @@ import { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
 export default function NetworkGraph({ nodes, edges, width, height, margin }) {
+  console.log(nodes);
+  console.log(edges);
   const ref = useRef();
-
   useEffect(() => {
     const currentElement = ref.current;
-    const elem = d3.select(currentElement);
-    const svg = elem
+    const svg = d3
+      .select(currentElement)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    const link = svg
-      .selectAll('line')
-      .data(edges)
-      .enter()
-      .append('line')
-      .style('stroke', '#aaa');
+    for (let n of nodes) {
+      n['x'] = 50;
+      n['y'] = 50;
+    }
 
-    // Initialize the nodes
-    const node = svg
-      .selectAll('circle')
+    const elem = svg
+      .selectAll('g')
       .data(nodes)
       .enter()
-      .append('circle')
-      .attr('r', 20)
-      .style('fill', '#69b3a2');
-
-    // Let's list the force we wanna apply on the network
-    const simulation = d3
-      .forceSimulation(nodes) // Force algorithm is applied to data.nodes
-      .force(
-        'link',
+      .append('g')
+      .attr('transform', (d) => `translate(${d.x}, ${d.y})`)
+      .call(
         d3
-          .forceLink() // This force provides links between nodes
-          .id(function (d) {
-            return d.id;
-          }) // This provide  the id of a node
-          .links(edges), // and this the list of links
-      )
-      .force('charge', d3.forceManyBody().strength(-400)) // This adds repulsion between nodes. Play with the -400 for the repulsion strength
-      .force('center', d3.forceCenter(width / 2, height / 2)) // This force attracts nodes to the center of the svg area
-      .on('end', ticked);
+          .drag()
+          .on('start', dragstarted)
+          .on('drag', dragged)
+          .on('end', dragended),
+      );
 
-    // This function is run at each iteration of the force algorithm, updating the nodes position.
-    function ticked() {
-      link
-        .attr('x1', function (d) {
-          return d.source.x;
-        })
-        .attr('y1', function (d) {
-          return d.source.y;
-        })
-        .attr('x2', function (d) {
-          return d.target.x;
-        })
-        .attr('y2', function (d) {
-          return d.target.y;
-        });
-
-      node
-        .attr('cx', function (d) {
-          return d.x;
-        })
-        .attr('cy', function (d) {
-          return d.y;
-        });
+    const links = [];
+    for (let edge of edges) {
+      links.push({
+        source: nodes.filter((e) => e.id === edge.source)[0],
+        target: nodes.filter((e) => e.id === edge.target)[0],
+      });
     }
-  }, [nodes, edges]);
+
+    const circle = elem
+      .append('ellipse')
+      .attr('rx', 50)
+      .attr('ry', 30)
+      .attr('stroke', 'black')
+      .attr('fill', 'white');
+
+    const link = svg
+      .selectAll('line')
+      .data(links)
+      .enter()
+      .append('line')
+      .style('stroke', '#aaa')
+      .attr('x1', (d) => {
+        console.log(d);
+        return d.source.x;
+      })
+      .attr('y1', (d) => d.source.y)
+      .attr('x2', (d) => d.target.x)
+      .attr('y2', (d) => d.target.y);
+
+    elem
+      .append('text')
+      .attr('text-anchor', 'middle')
+      .attr('alignment-baseline', 'middle')
+      .text(function (d) {
+        return d.name;
+      });
+
+    function dragstarted(event, d) {
+      d3.select(this).raise().attr('stroke', 'black');
+    }
+
+    function dragged(event, d) {
+      const [x, y] = d3.pointer(event, svg.node());
+
+      d.x = x;
+      d.y = y;
+      d3.select(this).attr('transform', `translate(${d.x}, ${d.y})`);
+      updateLinks();
+    }
+
+    function dragended(event, d) {
+      d3.select(this).attr('stroke', null);
+    }
+
+    function updateLinks() {
+      link
+        .attr('x1', (d) => d.source.x)
+        .attr('y1', (d) => d.source.y)
+        .attr('x2', (d) => d.target.x)
+        .attr('y2', (d) => d.target.y);
+    }
+  }, []);
 
   return (
     <>
