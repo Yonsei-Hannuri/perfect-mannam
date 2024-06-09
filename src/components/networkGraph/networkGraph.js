@@ -1,7 +1,18 @@
 import { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 
-export default function NetworkGraph({ nodes, edges, width, height, margin }) {
+export default function NetworkGraph({
+  nodes,
+  edges,
+  width,
+  height,
+  margin,
+  dragstarted,
+  dragged,
+  dragended,
+  onNodeClick,
+  onLinkClick,
+}) {
   console.log(nodes);
   console.log(edges);
   const ref = useRef();
@@ -15,25 +26,6 @@ export default function NetworkGraph({ nodes, edges, width, height, margin }) {
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-    for (let n of nodes) {
-      n['x'] = 50;
-      n['y'] = 50;
-    }
-
-    const elem = svg
-      .selectAll('g')
-      .data(nodes)
-      .enter()
-      .append('g')
-      .attr('transform', (d) => `translate(${d.x}, ${d.y})`)
-      .call(
-        d3
-          .drag()
-          .on('start', dragstarted)
-          .on('drag', dragged)
-          .on('end', dragended),
-      );
-
     const links = [];
     for (let edge of edges) {
       links.push({
@@ -42,28 +34,68 @@ export default function NetworkGraph({ nodes, edges, width, height, margin }) {
       });
     }
 
-    const circle = elem
+    const linkPadding = svg
+      .selectAll('.clickable-link')
+      .data(links)
+      .enter()
+      .append('line')
+      .attr('class', 'clickable-link')
+      .style('cursor', 'pointer')
+      .attr('fill', 'none')
+      .attr('stroke', 'transparent') // Make it transparent
+      .attr('stroke-width', 10) // Thicker line for click area
+      .attr('x1', (d) => d.source.x)
+      .attr('y1', (d) => d.source.y)
+      .attr('x2', (d) => d.target.x)
+      .attr('y2', (d) => d.target.y)
+      .on('click', () => {
+        console.log('Line clicked!');
+        if (onLinkClick) onLinkClick();
+      });
+
+    const link = svg
+      .selectAll('.normal-link')
+      .data(links)
+      .enter()
+      .append('line')
+      .attr('class', 'normal-link')
+      .style('stroke', '#aaa')
+      .attr('stroke-width', 2)
+      .attr('x1', (d) => d.source.x)
+      .attr('y1', (d) => d.source.y)
+      .attr('x2', (d) => d.target.x)
+      .attr('y2', (d) => d.target.y);
+
+    const node = svg
+      .selectAll('g')
+      .data(nodes)
+      .enter()
+      .append('g')
+      .attr('transform', (d) => `translate(${d.x}, ${d.y})`)
+      .call(
+        d3
+          .drag()
+          .on('start', function (event, d) {
+            dragstarted(d3.select(this), event, d);
+          })
+          .on('drag', function (event, d) {
+            dragged(d3.select(this), event, d);
+            updateNodes();
+            updateLinks();
+          })
+          .on('end', function (event, d) {
+            dragended(d3.select(this), event, d);
+          }),
+      );
+
+    node
       .append('ellipse')
       .attr('rx', 50)
       .attr('ry', 30)
       .attr('stroke', 'black')
       .attr('fill', 'white');
 
-    const link = svg
-      .selectAll('line')
-      .data(links)
-      .enter()
-      .append('line')
-      .style('stroke', '#aaa')
-      .attr('x1', (d) => {
-        console.log(d);
-        return d.source.x;
-      })
-      .attr('y1', (d) => d.source.y)
-      .attr('x2', (d) => d.target.x)
-      .attr('y2', (d) => d.target.y);
-
-    elem
+    node
       .append('text')
       .attr('text-anchor', 'middle')
       .attr('alignment-baseline', 'middle')
@@ -71,25 +103,21 @@ export default function NetworkGraph({ nodes, edges, width, height, margin }) {
         return d.name;
       });
 
-    function dragstarted(event, d) {
-      d3.select(this).raise().attr('stroke', 'black');
-    }
+    node.on('click', () => {
+      if (onNodeClick) onNodeClick();
+    });
 
-    function dragged(event, d) {
-      const [x, y] = d3.pointer(event, svg.node());
-
-      d.x = x;
-      d.y = y;
-      d3.select(this).attr('transform', `translate(${d.x}, ${d.y})`);
-      updateLinks();
-    }
-
-    function dragended(event, d) {
-      d3.select(this).attr('stroke', null);
+    function updateNodes() {
+      node.attr('transform', (d) => `translate(${d.x}, ${d.y})`);
     }
 
     function updateLinks() {
       link
+        .attr('x1', (d) => d.source.x)
+        .attr('y1', (d) => d.source.y)
+        .attr('x2', (d) => d.target.x)
+        .attr('y2', (d) => d.target.y);
+      linkPadding
         .attr('x1', (d) => d.source.x)
         .attr('y1', (d) => d.source.y)
         .attr('x2', (d) => d.target.x)
