@@ -4,10 +4,12 @@
   "private": true,
   "dependencies": {
     "axios": "^0.21.4",
+    "bootstrap": "^5.3.3",
     "chart.js": "^3.9.1",
     "contrast": "^1.0.1",
     "d3": "^7.4.4",
     "react": "^16.0.2",
+    "react-bootstrap": "^2.10.2",
     "react-chartjs-2": "^3.3.0",
     "react-dom": "^16.0.2",
     "react-pdf": "^5.7.2",
@@ -44,11 +46,6 @@
   },
   "proxy": "http://localhost:8000",
   "devDependencies": {
-    "@types/jest": "^29.5.12",
-    "@types/node": "^20.14.2",
-    "@types/react": "^18.3.3",
-    "@types/react-dom": "^18.3.0",
-    "typescript": "^4.9.5",
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@chromatic-com/storybook": "^1.5.0",
     "@storybook/addon-essentials": "^8.0.7",
@@ -60,10 +57,16 @@
     "@storybook/react": "^8.1.6",
     "@storybook/react-webpack5": "^8.1.6",
     "@storybook/test": "^8.1.6",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.14.2",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
     "eslint-plugin-storybook": "^0.8.0",
     "prettier": "2.5.1",
     "prop-types": "^15.8.1",
+    "react-app-alias": "^2.2.2",
     "storybook": "^8.1.6",
+    "typescript": "^4.9.5",
     "webpack": "^5.91.0"
   }
 }
