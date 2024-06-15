@@ -6,26 +6,35 @@ export default function NetworkGraph({
   edges,
   width,
   height,
-  margin,
   dragstarted,
   dragged,
   dragended,
   onNodeClick,
+  onBackgroundClick,
   onLinkClick,
 }) {
-  console.log(nodes);
-  console.log(edges);
+  useEffect(() => {
+    const currentElement = ref.current;
+    const handler = (e) => {
+      const rect = currentElement.getBoundingClientRect();
+      if (onBackgroundClick) onBackgroundClick(e);
+    };
+    currentElement.addEventListener('click', handler);
+    return () => {
+      currentElement.removeEventListener('click', handler);
+    };
+  }, [onBackgroundClick]);
+
   const ref = useRef();
   useEffect(() => {
     const currentElement = ref.current;
     const svg = d3
       .select(currentElement)
+      .call((g) => g.select('svg').remove())
       .append('svg')
-      .attr('width', width + margin.left + margin.right)
-      .attr('height', height + margin.top + margin.bottom)
-      .append('g')
-      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
-
+      .attr('width', width)
+      .attr('height', height)
+      .append('g');
     const links = [];
     for (let edge of edges) {
       links.push({
@@ -43,14 +52,15 @@ export default function NetworkGraph({
       .style('cursor', 'pointer')
       .attr('fill', 'none')
       .attr('stroke', 'transparent') // Make it transparent
-      .attr('stroke-width', 10) // Thicker line for click area
+      .attr('stroke-width', 20) // Thicker line for click area
       .attr('x1', (d) => d.source.x)
       .attr('y1', (d) => d.source.y)
       .attr('x2', (d) => d.target.x)
       .attr('y2', (d) => d.target.y)
-      .on('click', () => {
-        console.log('Line clicked!');
-        if (onLinkClick) onLinkClick();
+      .on('click', (e) => {
+        e.stopPropagation();
+        console.log(e);
+        if (onLinkClick) onLinkClick(e.target.__data__);
       });
 
     const link = svg
@@ -71,6 +81,7 @@ export default function NetworkGraph({
       .data(nodes)
       .enter()
       .append('g')
+      .attr('id', (d) => d.id)
       .attr('transform', (d) => `translate(${d.x}, ${d.y})`)
       .call(
         d3
@@ -90,8 +101,8 @@ export default function NetworkGraph({
 
     node
       .append('ellipse')
-      .attr('rx', 50)
-      .attr('ry', 30)
+      .attr('rx', (n) => (n.invisible ? 0 : 50))
+      .attr('ry', (n) => (n.invisible ? 0 : 30))
       .attr('stroke', 'black')
       .attr('fill', 'white');
 
@@ -103,8 +114,8 @@ export default function NetworkGraph({
         return d.name;
       });
 
-    node.on('click', () => {
-      if (onNodeClick) onNodeClick();
+    node.on('click', (e) => {
+      if (onNodeClick) onNodeClick(e.currentTarget.getAttribute('id'));
     });
 
     function updateNodes() {
@@ -123,15 +134,15 @@ export default function NetworkGraph({
         .attr('x2', (d) => d.target.x)
         .attr('y2', (d) => d.target.y);
     }
-  }, []);
+  });
 
   return (
     <>
-      <h2> Network </h2>
       <div
         ref={ref}
         style={{
-          width: '100%',
+          width,
+          height,
         }}
       />
     </>

@@ -9,7 +9,6 @@ const meta = {
 export default meta;
 
 export const Basic = {
-  description: 'move mode',
   args: {
     nodes: [
       {
@@ -253,7 +252,6 @@ export const ADD_MODE = {
       right: 100,
     },
     dragstarted: (elem, event, d) => {
-      console.log('add');
       elem.raise().attr('stroke', 'black');
     },
     dragged: (elem, event, d) => {
@@ -262,6 +260,9 @@ export const ADD_MODE = {
     },
     dragended: (elem, event, d) => {
       elem.attr('stroke', null);
+    },
+    onNodeClick: (nodeId) => {
+      console.log(nodeId);
     },
   },
 };
