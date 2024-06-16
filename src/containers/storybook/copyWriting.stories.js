@@ -8,6 +8,8 @@ const meta = {
 };
 export default meta;
 
-export const Basic = {
-  args: {},
+export const Add = {
+  args: {
+    mode: 'add',
+  },
 };
