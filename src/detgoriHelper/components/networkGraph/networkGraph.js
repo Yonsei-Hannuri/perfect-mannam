@@ -59,7 +59,6 @@ export default function NetworkGraph({
       .attr('y2', (d) => d.target.y)
       .on('click', (e) => {
         e.stopPropagation();
-        console.log(e);
         if (onLinkClick) onLinkClick(e.target.__data__);
       });
 

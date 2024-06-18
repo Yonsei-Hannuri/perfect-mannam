@@ -1,10 +1,18 @@
-import { useRef, useEffect, useState } from 'react';
+import { useState } from 'react';
 import NetworkGraph from '../components/networkGraph/networkGraph';
 import ButtonSelection from '../components/selection/buttonSelection';
+import { useNode, useEdge } from './store/mindMap';
 
 const useMindMap = () => {
-  const [nodes, setNodes] = useState([]);
-  const [edges, setEdges] = useState([]);
+  const nodes = useNode((state) => state.nodes);
+  const addNode = useNode((state) => state.addNode);
+  const removeNode = useNode((state) => state.removeNode);
+  const updateNode = useNode((state) => state.updateNode);
+  const edges = useEdge((state) => state.edges);
+  const addEdge = useEdge((state) => state.addEdge);
+  const removeEdge = useEdge((state) => state.removeEdge);
+  const removeEdgeByTarget = useEdge((state) => state.removeEdgeByTarget);
+
   const DUMMY = 'DUMMY';
   const ModeType = {
     MOVE: {
@@ -26,102 +34,68 @@ const useMindMap = () => {
       name: '수정',
       dragstarted: (elem, event, d) => {
         const se = event.sourceEvent;
-        setNodes((prev) => [
-          ...prev,
-          {
-            id: DUMMY,
-            name: '',
-            x: se.offsetX,
-            y: se.offsetY,
-            invisible: true,
-          },
-        ]);
-        setEdges((prev) => [...prev, { source: d.id, target: DUMMY }]);
+        addNode({
+          id: DUMMY,
+          name: '',
+          x: se.offsetX,
+          y: se.offsetY,
+          invisible: true,
+        });
+        addEdge({ source: d.id, target: DUMMY });
       },
       dragged: (elem, event, d) => {
         const se = event.sourceEvent;
-        setNodes((prev) => [
-          ...prev.filter((n) => n.id !== DUMMY),
-          {
-            id: DUMMY,
-            name: '',
-            x: se.offsetX,
-            y: se.offsetY,
-            invisible: true,
-          },
-        ]);
+        updateNode({
+          id: DUMMY,
+          name: '',
+          x: se.offsetX,
+          y: se.offsetY,
+          invisible: true,
+        });
       },
       dragended: (elem, event, d) => {
-        setEdges((prev) => [...prev.filter((n) => n.target !== DUMMY)]);
-        setNodes((prev) => {
-          let closestNode;
-          let closestDist = Infinity;
-          const dummyNode = prev.find((n) => n.id === DUMMY);
-          const nodes = prev.filter((n) => n.id !== DUMMY);
-          for (const node of nodes) {
-            const dist =
-              Math.abs(node.x - dummyNode.x) + Math.abs(node.y - dummyNode.y);
-            if (dist < closestDist) {
-              closestDist = dist;
-              closestNode = node;
-            }
+        removeEdgeByTarget(DUMMY);
+        let closestNode;
+        let closestDist = Infinity;
+        const curNodes = useNode.getState().nodes;
+        const dummyNode = curNodes.find((n) => n.id === DUMMY);
+        const nodes = curNodes.filter((n) => n.id !== DUMMY);
+        for (const node of nodes) {
+          const dist =
+            Math.abs(node.x - dummyNode.x) + Math.abs(node.y - dummyNode.y);
+          if (dist < closestDist) {
+            closestDist = dist;
+            closestNode = node;
           }
-          const isDuplicatedEdge = (edges, newEdge) => {
-            return (
-              edges.filter((e) => e.edgeId === newEdge.edgeId).length !== 0
-            );
-          };
-          if (closestNode && closestDist < 50) {
-            setEdges((prev) => {
-              const newEdge = {
-                edgeId:
-                  d.id < closestNode.id
-                    ? `${d.id}-${closestNode.id}`
-                    : `${closestNode.id}-${d.id}`,
-                source: d.id,
-                target: closestNode.id,
-              };
-              if (isDuplicatedEdge(prev, newEdge)) return prev;
-              return [...prev, newEdge];
-            });
-          }
-          return [...prev.filter((n) => n.id !== DUMMY)];
-        });
+        }
+        if (closestNode && closestDist < 50) {
+          addEdge({
+            source: d.id,
+            target: closestNode.id,
+          });
+        }
+        removeNode(DUMMY);
       },
       onBackgroundClick: (e) => {
         const word = prompt('단어 추가');
         if (!word) return;
-        setNodes((prev) => {
-          if (prev.map((n) => n.id).includes(word)) return prev;
-          return [
-            ...prev,
-            {
-              id: word,
-              name: word,
-              x: e.offsetX,
-              y: e.offsetY,
-            },
-          ];
+        addNode({
+          id: word,
+          name: word,
+          x: e.offsetX,
+          y: e.offsetY,
         });
       },
       onEdgeClick: (edge) => {
         if (!window.confirm('연결을 지우겠습니까?')) return;
-        const edgeId =
-          edge.source.id < edge.target.id
-            ? `${edge.source.id}-${edge.target.id}`
-            : `${edge.target.id}-${edge.source.id}`;
-        setEdges((prev) => {
-          return prev.filter((e) => e.edgeId !== edgeId);
-        });
+        removeEdge(edge);
       },
     },
   };
   const [mode, setMode] = useState(ModeType.MOVE);
   return {
     nodes,
-    setNodes,
     edges,
-    setEdges,
     ModeType,
     mode,
     setMode,
