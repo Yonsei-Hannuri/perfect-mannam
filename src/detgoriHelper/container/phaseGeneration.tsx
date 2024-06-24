@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PhaseChatBox from '../components/phaseGeneration/PhaseChatBox';
 import DraggableOrdering from '../components/phaseGeneration/DraggableOrdering';
+import { usePhase } from './store/phases';
 
 const reviseContentByCommand = (
   phase: { title: string; content: string },
@@ -8,39 +9,36 @@ const reviseContentByCommand = (
 ) => 'revised';
 
 export default function () {
-  const [phases, setPhases] = useState<{ title: string; content: string }[]>([
-    { content: 'content', title: 'title' },
-    { content: 'content2', title: 'title2' },
-    { content: 'content3', title: 'title3' },
-  ]);
+  const phases = usePhase((state) => state.phases);
+  const changeIndex = usePhase((state) => state.changeOrder);
+  const setPhase = usePhase((state) => state.setPhase);
 
   return (
     <>
       <DraggableOrdering
         onDragEnd={(fromIndex, toIndexBefore) => {
           if (toIndexBefore === -1 || fromIndex === -1) return;
-          setPhases((phases) => {
-            if (fromIndex < toIndexBefore) {
-              phases.splice(toIndexBefore, 0, phases[fromIndex]);
-              phases.splice(fromIndex, 1);
-            } else if (fromIndex > toIndexBefore) {
-              phases.splice(toIndexBefore, 0, phases[fromIndex]);
-              phases.splice(fromIndex + 1, 1);
-            }
-            return [...phases];
-          });
+          changeIndex(fromIndex, toIndexBefore);
         }}
       >
         {phases.map((p, idx) => (
           <PhaseChatBox
             key={idx}
-            phase={p}
+            phase={{
+              title: p.copy,
+              content: p.content === null ? '' : p.content,
+            }}
             onChat={(chat) => {
-              setPhases((phases) => {
-                const phase = phases.find((e) => e.title == p.title)!;
-                phase.content = reviseContentByCommand(phase!, chat);
-                return [...phases];
-              });
+              setPhase(
+                p.copy,
+                reviseContentByCommand(
+                  {
+                    title: p.copy,
+                    content: p.content === null ? '' : p.content,
+                  },
+                  chat,
+                ),
+              );
             }}
           />
         ))}
