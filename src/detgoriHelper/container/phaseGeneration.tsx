@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import PhaseChatBox from '../components/phaseGeneration/PhaseChatBox';
 import DraggableOrdering from '../components/phaseGeneration/DraggableOrdering';
 import { usePhase } from './store/phases';
@@ -9,7 +8,7 @@ const reviseContentByCommand = (
 ) => 'revised';
 
 export default function () {
-  const phases = usePhase((state) => state.phases);
+  const phases = usePhase((state) => state.phases.filter((p) => p.selected));
   const changeIndex = usePhase((state) => state.changeOrder);
   const setPhase = usePhase((state) => state.setPhase);
 

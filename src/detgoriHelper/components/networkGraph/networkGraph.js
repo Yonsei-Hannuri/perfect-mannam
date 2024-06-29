@@ -59,7 +59,9 @@ export default function NetworkGraph({
       .attr('y2', (d) => d.target.y)
       .on('click', (e) => {
         e.stopPropagation();
-        if (onLinkClick) onLinkClick(e.target.__data__);
+        const edges = e.target.__data__;
+        if (onLinkClick)
+          onLinkClick({ source: edges.source.id, target: edges.target.id });
       });
 
     const link = svg
