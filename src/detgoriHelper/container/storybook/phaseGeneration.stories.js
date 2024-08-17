@@ -1,8 +1,8 @@
-import PhaseGeneration from '../phaseGeneration';
+import Paragraph from '../paragraph';
 
 const meta = {
-  title: 'PhaseGeneration',
-  component: PhaseGeneration,
+  title: 'Paragraph',
+  component: Paragraph,
   tags: ['autodocs'],
   argTypes: {},
 };

@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 
 export default function ({
-  phase,
+  paragraph,
   onChat,
 }: {
-  phase: { title: string; content: string };
+  paragraph: { title: string; content: string };
   onChat: (chat: string) => void;
 }) {
   const [chat, setChat] = useState('');
   return (
     <Container>
-      <Row>{phase.title}</Row>
-      <Row>{phase.content}</Row>
+      <Row>{paragraph.title}</Row>
+      <Row>{paragraph.content}</Row>
       <Row>
         <Col sm={10}>
           <Form.Control

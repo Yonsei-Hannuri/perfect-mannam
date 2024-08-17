@@ -1,11 +1,11 @@
 import CopyWriting from '../container/copyWriting';
-import PhaseGeneration from '../container/phaseGeneration';
+import Paragraph from '../container/paragraph';
 
 export default function () {
   return (
     <>
       <CopyWriting mode="selection" />
-      <PhaseGeneration />
+      <Paragraph />
     </>
   );
 }

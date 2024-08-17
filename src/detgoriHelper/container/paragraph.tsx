@@ -1,16 +1,18 @@
-import PhaseChatBox from '../components/phaseGeneration/PhaseChatBox';
-import DraggableOrdering from '../components/phaseGeneration/DraggableOrdering';
-import { usePhase } from './store/phases';
+import Paragraph from '../components/paragraph/Paragraph';
+import DraggableOrdering from '../components/paragraph/DraggableOrdering';
+import { useParagraph } from './store/paragraph';
 
 const reviseContentByCommand = (
-  phase: { title: string; content: string },
+  paragraph: { title: string; content: string },
   command: any,
 ) => 'revised';
 
 export default function () {
-  const phases = usePhase((state) => state.phases.filter((p) => p.selected));
-  const changeIndex = usePhase((state) => state.changeOrder);
-  const setPhase = usePhase((state) => state.setPhase);
+  const paragraphs = useParagraph((state) =>
+    state.paragraphs.filter((p) => p.selected),
+  );
+  const changeIndex = useParagraph((state) => state.changeOrder);
+  const setParagraph = useParagraph((state) => state.setParagraph);
 
   return (
     <>
@@ -20,15 +22,15 @@ export default function () {
           changeIndex(fromIndex, toIndexBefore);
         }}
       >
-        {phases.map((p, idx) => (
-          <PhaseChatBox
+        {paragraphs.map((p, idx) => (
+          <Paragraph
             key={idx}
-            phase={{
+            paragraph={{
               title: p.copy,
               content: p.content === null ? '' : p.content,
             }}
             onChat={(chat) => {
-              setPhase(
+              setParagraph(
                 p.copy,
                 reviseContentByCommand(
                   {

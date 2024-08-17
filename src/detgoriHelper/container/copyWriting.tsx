@@ -1,22 +1,22 @@
 import InputTextAndAdd from '../components/copyWriting/InputTextAndAdd';
 import SentenceSelection from '../components/copyWriting/SentenceSelection';
-import { usePhase } from './store/phases';
+import { useParagraph } from './store/paragraph';
 
 export default function CopyWriting({
   mode,
 }: {
   mode: 'add' | 'selection' | null;
 }) {
-  const phases = usePhase((state) => state.phases);
-  const addCopy = usePhase((state) => state.addCopy);
-  const removeCopy = usePhase((state) => state.removeCopy);
-  const toggleSelect = usePhase((state) => state.togglSelect);
+  const paragraphs = useParagraph((state) => state.paragraphs);
+  const addCopy = useParagraph((state) => state.addCopy);
+  const removeCopy = useParagraph((state) => state.removeCopy);
+  const toggleSelect = useParagraph((state) => state.togglSelect);
 
   return (
     <>
       {' '}
       <SentenceSelection
-        lines={phases.map((p) => {
+        lines={paragraphs.map((p) => {
           return { text: p.copy, selected: p.selected };
         })}
         buttons={
