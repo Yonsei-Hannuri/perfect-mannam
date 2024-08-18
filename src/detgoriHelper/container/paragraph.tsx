@@ -1,45 +1,40 @@
 import Paragraph from '../components/paragraph/Paragraph';
 import DraggableOrdering from '../components/paragraph/DraggableOrdering';
-import { useParagraph } from './store/paragraph';
-
-const reviseContentByCommand = (
-  paragraph: { title: string; content: string },
-  command: any,
-) => 'revised';
+import { useParagraphByEssay } from './store/paragraph';
+import { useEffect } from 'react';
 
 export default function () {
-  const paragraphs = useParagraph((state) =>
-    state.paragraphs.filter((p) => p.selected),
-  );
-  const changeIndex = useParagraph((state) => state.changeOrder);
-  const setParagraph = useParagraph((state) => state.setParagraph);
-
+  const {
+    paragraphs,
+    fetch,
+    loading,
+    addParagraph,
+    removeParagraph,
+    changeOrder,
+    regenerateParagraph,
+    modifyParagraph,
+  } = useParagraphByEssay();
+  useEffect(() => {
+    fetch(1);
+  }, []);
+  console.log(paragraphs);
   return (
     <>
       <DraggableOrdering
         onDragEnd={(fromIndex, toIndexBefore) => {
           if (toIndexBefore === -1 || fromIndex === -1) return;
-          changeIndex(fromIndex, toIndexBefore);
+          changeOrder(paragraphs[fromIndex].id, toIndexBefore);
         }}
       >
         {paragraphs.map((p, idx) => (
           <Paragraph
             key={idx}
             paragraph={{
-              title: p.copy,
-              content: p.content === null ? '' : p.content,
+              title: '',
+              content: p.content,
             }}
             onChat={(chat) => {
-              setParagraph(
-                p.copy,
-                reviseContentByCommand(
-                  {
-                    title: p.copy,
-                    content: p.content === null ? '' : p.content,
-                  },
-                  chat,
-                ),
-              );
+              regenerateParagraph(p.id, chat);
             }}
           />
         ))}
