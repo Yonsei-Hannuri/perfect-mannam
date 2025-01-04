@@ -17,8 +17,8 @@ const useSentenceSearch = () => {
     }
     setIsLoading(true);
     const searchResult = await SEARCH_SENTENCE_BY_TOKENS(tokens, page);
-    setSentences(searchResult.sentences);
-    setTotalCount(searchResult.totalCount);
+    setSentences(searchResult.results);
+    setTotalCount(searchResult.count);
     setPage(page);
     setIsLoading(false);
   };

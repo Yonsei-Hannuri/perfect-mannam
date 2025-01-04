@@ -90,7 +90,7 @@ function Archive() {
               tokens={searchTokens}
               key={sentence.content}
               sentence={sentence.content}
-              semester={sentence.semester}
+              semester={`${sentence.year}-${sentence.semester}`}
               title={sentence.title}
               author={sentence.author}
               link={sentence.link}
