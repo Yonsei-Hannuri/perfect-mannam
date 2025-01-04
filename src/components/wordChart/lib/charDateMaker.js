@@ -1,12 +1,9 @@
-import sumCounts from '../../../modules/sumCounts';
-
 /**
  *
- * @param { string[] } data 각 요소 string은 {'a': 3, 'b': 4} 와 같은 형태
+ * @param { string : number } words {'a': 3, 'b': 4} 와 같은 형태
  * @returns
  */
-function chartDataMaker(data) {
-  const words = sumCounts(data);
+function chartDataMaker(words) {
   // make a rank
   let wordArray = [];
   for (let key in words) {

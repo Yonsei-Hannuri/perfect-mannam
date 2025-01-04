@@ -2,8 +2,8 @@ import chartDataMaker from './lib/charDateMaker';
 import chartOption from './lib/chartOption';
 import { Bar } from 'react-chartjs-2';
 
-function WordChart(props) {
-  const chartData = chartDataMaker(props.data);
+function WordChart({ words }) {
+  const chartData = chartDataMaker(words);
   const options = chartOption;
   return (
     <div className="mt-3 py-3" id="statics">
