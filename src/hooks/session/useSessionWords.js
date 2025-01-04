@@ -3,12 +3,12 @@ import useOnMountAsync from '../common/useOnMountAsync';
 import { GET_SESSION_WORDS } from '../../api/words';
 
 const useSessionWords = (sessionId) => {
-  const [sessionWordList, setSessionWordList] = useState([]);
+  const [sessionWords, setSessionWords] = useState([]);
   useOnMountAsync(async () => {
-    setSessionWordList(await GET_SESSION_WORDS(sessionId));
+    setSessionWords(await GET_SESSION_WORDS(sessionId));
   });
   return {
-    sessionWordList,
+    sessionWords,
   };
 };
 

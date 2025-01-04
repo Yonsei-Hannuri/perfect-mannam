@@ -1,10 +1,10 @@
 import ReactWordcloud from 'react-wordcloud';
-import wordCloudDataMaker from './lib/wordCloudDataMaker';
+import generateWordCloudData from './lib/generateWordCloudData';
 
-const WordCloud = ({ wordList }) => {
+const WordCloud = ({ words }) => {
   return (
     <ReactWordcloud
-      words={wordCloudDataMaker(wordList)}
+      words={generateWordCloudData(words)}
       options={{ fontSizes: [12, 72] }}
     />
   );

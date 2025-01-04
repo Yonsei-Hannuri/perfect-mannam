@@ -2,7 +2,7 @@
  * @param {{[string] : number}} wordCounts
  * @returns {{ text: string, value: number}[]}
  */
-const generateWordCloudData = (wordCounts, threshold) => {
+const generateWordCloudData = (wordCounts, threshold = 3) => {
   let wordList = [];
   for (let key in wordCounts) {
     if (wordCounts[key] < threshold) {

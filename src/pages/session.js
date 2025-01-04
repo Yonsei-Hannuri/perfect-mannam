@@ -19,7 +19,7 @@ const durationLogger = new DurationLogger((id, duration) => {
 function Session() {
   const sessionId = getQueryParams().sessionID;
   const [session, detgoris] = useSession(sessionId);
-  const { sessionWordList } = useSessionWords(sessionId);
+  const { sessionWords } = useSessionWords(sessionId);
   const readRecord = new LocalstorageObject(`session-${sessionId}-read-record`);
   useOnMount(() => {
     const unloadhandler = () => durationLogger.close();
@@ -69,7 +69,7 @@ function Session() {
       )}
       <div className="flex-fill d-flex flex-column justify-content-center">
         <div>
-          <WordCloud wordList={sessionWordList} />
+          <WordCloud words={sessionWords} />
         </div>
       </div>
     </div>
